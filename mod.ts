@@ -1,4 +1,3 @@
-import "./src/polyfill.ts";
 export {
   type JSONValue,
   transformStreamFromGeneratorFunction,
