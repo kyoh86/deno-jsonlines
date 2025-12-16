@@ -1,23 +1,23 @@
-import { TextDelimiterStream } from "https://deno.land/std@0.185.0/streams/text_delimiter_stream.ts";
-import { JSONValue, transformStreamFromGeneratorFunction } from "./utils.ts";
-
-// avoid dnt typecheck error
-type _QueuingStrategy<T> = QueuingStrategy<T | undefined>;
+import { TextDelimiterStream } from "@std/streams";
+import {
+  type JSONValue,
+  transformStreamFromGeneratorFunction,
+} from "./utils.ts";
 
 export interface ParseStreamOptions {
   /**a character to separate JSON. The default is '\n'. */
   readonly separator?: string;
   /** Controls the buffer of the TransformStream used internally. Check https://developer.mozilla.org/en-US/docs/Web/API/TransformStream/TransformStream. */
-  readonly writableStrategy?: _QueuingStrategy<string>;
+  readonly writableStrategy?: QueuingStrategy<string>;
   /** Controls the buffer of the TransformStream used internally. Check https://developer.mozilla.org/en-US/docs/Web/API/TransformStream/TransformStream. */
-  readonly readableStrategy?: _QueuingStrategy<JSONValue>;
+  readonly readableStrategy?: QueuingStrategy<JSONValue>;
 }
 
 /**
  * stream to parse [JSON lines](https://jsonlines.org/), [NDJSON](http://ndjson.org/) and [JSON Text Sequences](https://datatracker.ietf.org/doc/html/rfc7464).
  *
  * ```ts
- * import { JSONLinesParseStream } from "https://deno.land/x/jsonlines@v1.2.1/mod.ts";
+ * import { JSONLinesParseStream } from "@kyoh86/jsonlines";
  *
  * const url = new URL("./testdata/json-lines.jsonl", import.meta.url);
  * const { body } = await fetch(`${url}`);
@@ -71,7 +71,7 @@ export class JSONLinesParseStream
  * stream to parse [Concatenated JSON](https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON).
  *
  * ```ts
- * import { ConcatenatedJSONParseStream } from "https://deno.land/x/jsonlines@v1.2.1/mod.ts";
+ * import { ConcatenatedJSONParseStream } from "@kyoh86/jsonlines";
  *
  * const url = new URL("./testdata/concat-json.concat-json", import.meta.url);
  * const { body } = await fetch(`${url}`);

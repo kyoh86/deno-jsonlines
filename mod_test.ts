@@ -1,16 +1,12 @@
-import {
-  assertEquals,
-  assertRejects,
-} from "https://deno.land/std@0.185.0/testing/asserts.ts";
-import { readableStreamFromIterable } from "https://deno.land/std@0.185.0/streams/readable_stream_from_iterable.ts";
+import { assertEquals, assertRejects } from "@std/assert";
 import {
   ConcatenatedJSONParseStream,
   ConcatenatedJSONStringifyStream,
   JSONLinesParseStream,
   JSONLinesStringifyStream,
-  JSONValue,
-  ParseStreamOptions,
-  StringifyStreamOptions,
+  type JSONValue,
+  type ParseStreamOptions,
+  type StringifyStreamOptions,
   transformStreamFromGeneratorFunction,
 } from "./mod.ts";
 
@@ -541,7 +537,7 @@ Deno.test({
 Deno.test({
   name: "transformStreamFromGeneratorFunction",
   async fn() {
-    const reader = readableStreamFromIterable([0, 1, 2])
+    const reader = ReadableStream.from([0, 1, 2])
       .pipeThrough(transformStreamFromGeneratorFunction(async function* (src) {
         for await (const i of src) {
           yield i * 100;
@@ -558,7 +554,7 @@ Deno.test({
 Deno.test({
   name: "transformStreamFromGeneratorFunction: iterable (not async)",
   async fn() {
-    const reader = readableStreamFromIterable([0, 1, 2])
+    const reader = ReadableStream.from([0, 1, 2])
       .pipeThrough(transformStreamFromGeneratorFunction(function* (_src) {
         yield 0;
         yield 100;

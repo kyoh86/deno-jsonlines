@@ -1,4 +1,3 @@
-// avoid dnt typecheck error
 type _QueuingStrategy<T> = QueuingStrategy<T | undefined>;
 
 export interface StringifyStreamOptions {
@@ -14,15 +13,14 @@ export interface StringifyStreamOptions {
  * stream to stringify [JSON lines](https://jsonlines.org/), [NDJSON](http://ndjson.org/) and [JSON Text Sequences](https://datatracker.ietf.org/doc/html/rfc7464).
  *
  * ```ts
- * import { readableStreamFromIterable } from "https://deno.land/std@0.185.0/streams/mod.ts";
- * import { JSONLinesStringifyStream } from "https://deno.land/x/jsonlines@v1.2.1/mod.ts";
+ * import { JSONLinesStringifyStream } from "@kyoh86/jsonlines";
  *
  * const file = await Deno.open(new URL("./tmp.concat-json", import.meta.url), {
  *   create: true,
  *   write: true,
  * });
  *
- * readableStreamFromIterable([{ foo: "bar" }, { baz: 100 }])
+ * ReadableStream.from([{ foo: "bar" }, { baz: 100 }])
  *   .pipeThrough(new JSONLinesStringifyStream())
  *   .pipeThrough(new TextEncoderStream())
  *   .pipeTo(file.writable)
@@ -57,15 +55,14 @@ export class JSONLinesStringifyStream extends TransformStream<unknown, string> {
  * stream to stringify [Concatenated JSON](https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON).
  *
  * ```ts
- * import { readableStreamFromIterable } from "https://deno.land/std@0.185.0/streams/mod.ts";
- * import { ConcatenatedJSONStringifyStream } from "https://deno.land/x/jsonlines@v1.2.1/mod.ts";
+ * import { ConcatenatedJSONStringifyStream } from "@kyoh86/jsonlines";
  *
  * const file = await Deno.open(new URL("./tmp.concat-json", import.meta.url), {
  *   create: true,
  *   write: true,
  * });
  *
- * readableStreamFromIterable([{ foo: "bar" }, { baz: 100 }])
+ * ReadableStream.from([{ foo: "bar" }, { baz: 100 }])
  *   .pipeThrough(new ConcatenatedJSONStringifyStream())
  *   .pipeThrough(new TextEncoderStream())
  *   .pipeTo(file.writable)

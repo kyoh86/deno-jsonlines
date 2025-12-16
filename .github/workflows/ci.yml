@@ -7,11 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout Module
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Use Deno
         uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x
+          deno-version: v2.x
       - name: 😉 Format
         run: deno task test:fmt
       - name: 😋 Lint
@@ -20,39 +20,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout Module
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Use Deno
         uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x
+          deno-version: v2.x
       - name: 🧐 Type Check
         run: deno task check
   Test:
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout Module
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Use Deno
         uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x
+          deno-version: v2.x
       - name: 😎 Test
         run: deno task test:coverage
       - name: Create coverage report
         run: deno coverage ./coverage --lcov > coverage.lcov
       - name: Codecov
-        uses: codecov/codecov-action@v1.5.2
+        uses: codecov/codecov-action@v4
         with:
           file: ./coverage.lcov
           fail_ci_if_error: true
-  Bundle-Check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git Checkout Module
-        uses: actions/checkout@v2
-      - name: Use Deno
-        uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
-      - name: Bundle Check
-        run: deno task test:bundle

@@ -1,17 +1,14 @@
-# jsonlines-web
+# jsonlines
 
-[![deno module](https://shield.deno.dev/x/jsonlines)](https://deno.land/x/jsonlines)
-[![deno doc](https://doc.deno.land/badge.svg)](https://doc.deno.land/https://deno.land/x/jsonlines/mod.ts)
-[![npm version](https://badge.fury.io/js/jsonlines-web.svg)](https://badge.fury.io/js/jsonlines-web)
-[![ci](https://github.com/ayame113/jsonlines/actions/workflows/ci.yml/badge.svg)](https://github.com/ayame113/jsonlines/actions)
-[![codecov](https://codecov.io/gh/ayame113/jsonlines/branch/main/graph/badge.svg?token=GsQ5af4QLn)](https://codecov.io/gh/ayame113/jsonlines)
-![GitHub Sponsors](https://img.shields.io/github/sponsors/ayame113)
+This is forked from [ayame113/jsonlines](https://github.com/ayame113/jsonlines).
+
+[![JSR](https://jsr.io/badges/@kyoh86/jsonlines)](https://jsr.io/@kyoh86/jsonlines)
+[![JSR doc](https://jsr.io/@kyoh86/jsonlines/doc/badge)](https://jsr.io/@kyoh86/jsonlines/doc)
+[![ci](https://github.com/kyoh86/deno-jsonlines/actions/workflows/ci.yml/badge.svg)](https://github.com/kyoh86/deno-jsonlines/actions)
+[![codecov](https://codecov.io/gh/kyoh86/deno-jsonlines/branch/main/graph/badge.svg?token=GsQ5af4QLn)](https://codecov.io/gh/kyoh86/deno-jsonlines)
+![GitHub Sponsors](https://img.shields.io/github/sponsors/kyoh86)
 
 Web stream based jsonlines decoder/encoder
-
-- ✅Deno
-- ✅browser
-- ✅Node.js
 
 This library supports JSON in the following formats:
 
@@ -26,10 +23,7 @@ specifications of each JSON.
 
 ## install or import
 
-### Deno
-
-https://deno.land/x/jsonlines/
-https://doc.deno.land/https://deno.land/x/jsonlines/mod.ts
+https://jsr.io/@kyoh86/jsonlines
 
 ```ts
 import {
@@ -37,38 +31,7 @@ import {
   ConcatenatedJSONStringifyStream,
   JSONLinesParseStream,
   JSONLinesStringifyStream,
-} from "https://deno.land/x/jsonlines@v1.2.1/mod.ts";
-```
-
-### browser
-
-```ts
-import {
-  ConcatenatedJSONParseStream,
-  ConcatenatedJSONStringifyStream,
-  JSONLinesParseStream,
-  JSONLinesStringifyStream,
-} from "https://deno.land/x/jsonlines@v1.2.1/js/mod.js";
-```
-
-### Node.js
-
-https://www.npmjs.com/package/jsonlines-web
-
-```shell
-npm install jsonlines-web
-```
-
-```ts, ignore
-import {
-  ConcatenatedJSONParseStream,
-  ConcatenatedJSONStringifyStream,
-  JSONLinesParseStream,
-  JSONLinesStringifyStream,
-} from "jsonlines-web";
-// if you need
-// import { TextDecoderStream, TextEncoderStream } from "node:stream/web";
-// import { fetch } from "undici";
+} from "@kyoh86/jsonlines";
 ```
 
 ## Usage
@@ -86,10 +49,10 @@ A working example can be found at [./testdata/test.ts](./testdata/test.ts).
 ```
 
 ```ts
-import { JSONLinesParseStream } from "https://deno.land/x/jsonlines@v1.2.1/mod.ts";
+import { JSONLinesParseStream } from "@kyoh86/jsonlines";
 
 const { body } = await fetch(
-  "https://deno.land/x/jsonlines@v1.2.1/testdata/json-lines.jsonl",
+  "https://jsr.io/@kyoh86/jsonlines/1.3.0/testdata/json-lines.jsonl",
 );
 
 const readable = body!
@@ -119,10 +82,10 @@ for await (const data of readable) {
 ```
 
 ```ts
-import { JSONLinesParseStream } from "https://deno.land/x/jsonlines@v1.2.1/mod.ts";
+import { JSONLinesParseStream } from "@kyoh86/jsonlines";
 
 const { body } = await fetch(
-  "https://deno.land/x/jsonlines@v1.2.1/testdata/json-seq.json-seq",
+  "https://jsr.io/@kyoh86/jsonlines/1.3.0/testdata/json-seq.json-seq",
 );
 
 const recordSeparator = "\x1E";
@@ -144,10 +107,10 @@ for await (const data of readable) {
 ```
 
 ```ts
-import { ConcatenatedJSONParseStream } from "https://deno.land/x/jsonlines@v1.2.1/mod.ts";
+import { ConcatenatedJSONParseStream } from "@kyoh86/jsonlines";
 
 const { body } = await fetch(
-  "https://deno.land/x/jsonlines@v1.2.1/testdata/concat-json.concat-json",
+  "https://jsr.io/@kyoh86/jsonlines/1.3.0/testdata/concat-json.concat-json",
 );
 
 const readable = body!
@@ -162,15 +125,14 @@ for await (const data of readable) {
 ### How to stringify JSON Lines
 
 ```ts
-import { readableStreamFromIterable } from "https://deno.land/std@0.138.0/streams/mod.ts";
-import { JSONLinesStringifyStream } from "https://deno.land/x/jsonlines@v1.2.1/mod.ts";
+import { JSONLinesStringifyStream } from "@kyoh86/jsonlines";
 
 const file = await Deno.open(new URL("./tmp.concat-json", import.meta.url), {
   create: true,
   write: true,
 });
 
-readableStreamFromIterable([{ foo: "bar" }, { baz: 100 }])
+ReadableStream.from([{ foo: "bar" }, { baz: 100 }])
   .pipeThrough(new JSONLinesStringifyStream())
   .pipeThrough(new TextEncoderStream())
   .pipeTo(file.writable)
@@ -180,8 +142,7 @@ readableStreamFromIterable([{ foo: "bar" }, { baz: 100 }])
 ### How to stringify json-seq
 
 ```ts
-import { readableStreamFromIterable } from "https://deno.land/std@0.138.0/streams/mod.ts";
-import { JSONLinesStringifyStream } from "https://deno.land/x/jsonlines@v1.2.1/mod.ts";
+import { JSONLinesStringifyStream } from "@kyoh86/jsonlines";
 
 const recordSeparator = "\x1E";
 const file = await Deno.open(new URL("./tmp.concat-json", import.meta.url), {
@@ -189,7 +150,7 @@ const file = await Deno.open(new URL("./tmp.concat-json", import.meta.url), {
   write: true,
 });
 
-readableStreamFromIterable([{ foo: "bar" }, { baz: 100 }])
+ReadableStream.from([{ foo: "bar" }, { baz: 100 }])
   .pipeThrough(new JSONLinesStringifyStream({ separator: recordSeparator }))
   .pipeThrough(new TextEncoderStream())
   .pipeTo(file.writable)
@@ -199,28 +160,16 @@ readableStreamFromIterable([{ foo: "bar" }, { baz: 100 }])
 ### How to stringify concat-json
 
 ```ts
-import { readableStreamFromIterable } from "https://deno.land/std@0.138.0/streams/mod.ts";
-import { ConcatenatedJSONStringifyStream } from "https://deno.land/x/jsonlines@v1.2.1/mod.ts";
+import { ConcatenatedJSONStringifyStream } from "@kyoh86/jsonlines";
 
 const file = await Deno.open(new URL("./tmp.concat-json", import.meta.url), {
   create: true,
   write: true,
 });
 
-readableStreamFromIterable([{ foo: "bar" }, { baz: 100 }])
+ReadableStream.from([{ foo: "bar" }, { baz: 100 }])
   .pipeThrough(new ConcatenatedJSONStringifyStream())
   .pipeThrough(new TextEncoderStream())
   .pipeTo(file.writable)
   .then(() => console.log("write success"));
 ```
-
-## note
-
-This library contains
-[ReadableStream.prototype[Symbol.asyncIterator]](https://github.com/whatwg/streams/issues/778)
-polyfills. Importing this library will automatically enable
-ReadableStream.prototype[Symbol.asyncIterator].
-
-## develop
-
-need to manually `deno task transpile` before release.

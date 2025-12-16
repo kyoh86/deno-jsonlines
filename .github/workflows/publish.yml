@@ -1,0 +1,33 @@
+name: Publish
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v2.x
+
+      - name: Verify version
+        run: |
+          # The strip-v prefix is a bit of a pain.
+          # We'll just cut it off and not deal with it.
+          TAG_VERSION=$(echo ${{ github.ref_name }} | sed 's/v//')
+          DENO_JSON_VERSION=$(cat deno.json | jq -r .version)
+          if [ "$TAG_VERSION" != "$DENO_JSON_VERSION" ]; then
+            echo "Tag version ($TAG_VERSION) does not match deno.json version ($DENO_JSON_VERSION)."
+            exit 1
+          fi
+
+      - name: Deno publish (JSR)
+        run: deno publish

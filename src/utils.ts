@@ -5,17 +5,13 @@ export type JSONValue =
   | number
   | boolean;
 
-// avoid dnt typecheck error
-type _QueuingStrategy<T> = QueuingStrategy<T | undefined>;
-
 /**
  * Convert the generator function into a TransformStream.
  *
  * ```ts
- * import { readableStreamFromIterable } from "https://deno.land/std@0.185.0/streams/mod.ts";
- * import { transformStreamFromGeneratorFunction } from "https://deno.land/x/jsonlines@v1.2.1/mod.ts";
+ * import { transformStreamFromGeneratorFunction } from "@kyoh86/jsonlines";
  *
- * const reader = readableStreamFromIterable([0, 1, 2])
+ * const reader = ReadableStream.from([0, 1, 2])
  *   .pipeThrough(transformStreamFromGeneratorFunction(async function* (src) {
  *     for await (const chunk of src) {
  *       yield chunk * 100;
@@ -34,8 +30,8 @@ type _QueuingStrategy<T> = QueuingStrategy<T | undefined>;
  */
 export function transformStreamFromGeneratorFunction<I, O>(
   transformer: (src: ReadableStream<I>) => Iterable<O> | AsyncIterable<O>,
-  writableStrategy?: _QueuingStrategy<I>,
-  readableStrategy?: _QueuingStrategy<O>,
+  writableStrategy?: QueuingStrategy<I>,
+  readableStrategy?: QueuingStrategy<O>,
 ): TransformStream<I, O> {
   const {
     writable,
