@@ -38,10 +38,3 @@ jobs:
           deno-version: v2.x
       - name: 😎 Test
         run: deno task test:coverage
-      - name: Create coverage report
-        run: deno coverage ./coverage --lcov > coverage.lcov
-      - name: Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          file: ./coverage.lcov
-          fail_ci_if_error: true

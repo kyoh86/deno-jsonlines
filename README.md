@@ -5,7 +5,6 @@ This is forked from [ayame113/jsonlines](https://github.com/ayame113/jsonlines).
 [![JSR](https://jsr.io/badges/@kyoh86/jsonlines)](https://jsr.io/@kyoh86/jsonlines)
 [![JSR doc](https://jsr.io/@kyoh86/jsonlines/doc/badge)](https://jsr.io/@kyoh86/jsonlines/doc)
 [![ci](https://github.com/kyoh86/deno-jsonlines/actions/workflows/ci.yml/badge.svg)](https://github.com/kyoh86/deno-jsonlines/actions)
-[![codecov](https://codecov.io/gh/kyoh86/deno-jsonlines/branch/main/graph/badge.svg?token=GsQ5af4QLn)](https://codecov.io/gh/kyoh86/deno-jsonlines)
 ![GitHub Sponsors](https://img.shields.io/github/sponsors/kyoh86)
 
 Web stream based jsonlines decoder/encoder
